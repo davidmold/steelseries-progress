@@ -1,11 +1,13 @@
 {
   "name": "steelseries-progress",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A package that lets you easily update a progress bar on your steelseries keyboard oled",
   "main": "index.js",
   "type": "module",
-  "author": "",
+  "author": "Lantic Media Inc",
   "license": "ISC",
+  "homepage": "https://github.com/davidmold/steelseries-progress",
+  "repository": "davidmold/steelseries-progress",
   "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
