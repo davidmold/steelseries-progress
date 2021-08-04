@@ -14,11 +14,19 @@ npm install steelseries-progress
 
 ```
 import { init, setProgress } from 'steelseries-progress'
+import { waitfor } from 'lantix-utils'
 
 async function main() {
-  if(init()) {
-    let success = await setProgress(10)
+  await init()
+  console.log('starting')
+  for(let i = 0; i <= 100; i++){
+    await setProgress(i)
+    await waitfor(100)
   }
 }
+
+main().then(() => {
+  console.log('done')
+})
 ```
 Hopefully you get the idea.
