@@ -2,7 +2,9 @@ import axios from 'axios'
 import fs from 'fs'
 
 const ss = {
-  valid: false
+  valid: false,
+  min: 0,
+  max: 100
 }
 
 const GAME_NAME = 'SAUSAGE'
@@ -64,7 +66,10 @@ async function setProgress (val) {
   if (!ss.valid) {
     return false
   }
-  ms.data.value = val
+  const pc = val - ss.min
+  const factor = (ss.max - ss.min) / 100
+  const mval = pc * factor
+  ms.data.value = mval
   try {
     await axios.post(ss.gameEventUrl, ms)
   } catch (err) {
@@ -74,9 +79,11 @@ async function setProgress (val) {
   return true
 }
 
-async function init () {
+async function init (min = 0, max = 100) {
   try {
     setup()
+    ss.min = min
+    ss.max = max
     await axios.post(ss.gameMetadataUrl, {
       game: GAME_NAME,
       game_display_name: 'Sausage',
