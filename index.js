@@ -41,9 +41,17 @@ function discoverUrl () {
   }
 }
 
-function setup () {
+function setup (ip) {
   try {
-    const ggServer = discoverUrl()
+    let ggServer = discoverUrl()
+    if (!ggServer) {
+      ss.valid = false
+      return false
+    }
+    if (ip && ggServer) {
+      const bits = ggServer.split(':')
+      ggServer = ip + ':' + bits[1]
+    }
     if (ggServer) {
       ss.valid = true
       ss.gameEventUrl = `http://${ggServer}/game_event`
@@ -53,6 +61,7 @@ function setup () {
     }
   } catch (err) {
     console.log(err)
+    ss.valid = false
   }
   return false
 }
@@ -79,11 +88,11 @@ async function setProgress (val) {
   return true
 }
 
-async function init (min = 0, max = 100) {
+async function init (options = {}) {
   try {
-    setup()
-    ss.min = min
-    ss.max = max
+    setup(options.ip)
+    ss.min = options.min || 0
+    ss.max = options.max || 100
     await axios.post(ss.gameMetadataUrl, {
       game: GAME_NAME,
       game_display_name: 'Sausage',
